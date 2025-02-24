@@ -22,7 +22,7 @@ contract PixelMap {
         for (uint i = 0; i < height; i++) {
             pixelMap.push();
             for (uint j = 0; j < width; j++) {
-                pixelMap[i].push(Pixel(0, 0, 0));
+                pixelMap[i].push(Pixel(255, 255, 255));
             }
         }
     }

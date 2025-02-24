@@ -2,7 +2,7 @@ import { PixelMap } from "./components";
 
 function App() {
   return (
-    <div className="flex w-screen h-screen">
+    <div className="flex h-screen">
       <PixelMap />
     </div>
   );
