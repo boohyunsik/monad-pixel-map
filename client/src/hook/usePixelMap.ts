@@ -39,9 +39,5 @@ export function usePixelMap() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log({ data });
-  }, [data]);
-
   return { data, loading };
 }
