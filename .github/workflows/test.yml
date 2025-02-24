@@ -32,16 +32,14 @@ jobs:
           forge fmt --check
         id: fmt
 
-      - name: Change directory to foundry
-        run: |
-          cd foundry
-
       - name: Run Forge build
+        working-directory: foundry
         run: |
           forge build --sizes
         id: build
 
       - name: Run Forge tests
+        working-directory: foundry
         run: |
           forge test -vvv
         id: test
