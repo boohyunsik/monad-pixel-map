@@ -33,11 +33,13 @@ jobs:
         id: fmt
 
       - name: Run Forge build
+        working-directory: foundry
         run: |
           forge build --sizes
         id: build
 
       - name: Run Forge tests
+        working-directory: foundry
         run: |
           forge test -vvv
         id: test
