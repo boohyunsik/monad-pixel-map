@@ -1,15 +1,41 @@
-import { usePixelMap } from "../hook";
+import { usePixelMap, useSetPixel } from "../hook";
+import { rgbAtom } from "../atom";
+import { useAtomValue } from "jotai";
+
+const gridSize = 400 as const;
 
 export function PixelMap() {
-  const { data } = usePixelMap();
+  const { data, loading, reload } = usePixelMap();
+  const { setPixel } = useSetPixel();
+  const rgb = useAtomValue(rgbAtom);
 
-  if (!data || data.length === 0) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div
+        className={`w-[400px] h-[400px] m-10 flex items-center justify-center`}
+      >
+        Loading...
+      </div>
+    );
   }
 
-  const gridSize = 400;
+  if (!data || data.length === 0) {
+    return (
+      <div
+        className={`w-[400px] h-[400px] m-10 flex items-center justify-center`}
+      >
+        No data
+      </div>
+    );
+  }
+
   const cellWidth = `calc(${gridSize}px / ${data[0].length})`;
   const cellHeight = `calc(${gridSize}px / ${data.length})`;
+
+  const handleClick = async (x: number, y: number) => {
+    await setPixel(x, y, rgb);
+    await reload();
+  };
 
   return (
     <div
@@ -24,8 +50,9 @@ export function PixelMap() {
           return (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className="pixel-cell"
+              className="pixel-cell cursor-pointer"
               style={{ backgroundColor: `rgb(${r}, ${g}, ${b})` }}
+              onClick={() => handleClick(colIndex, rowIndex)}
             />
           );
         })

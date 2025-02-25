@@ -1,12 +1,14 @@
 import { createPublicClient, http } from "viem";
 
+export const chain = {
+  id: 10143,
+  name: "Monad Testnet",
+  nativeCurrency: { name: "Monad", symbol: "MON", decimals: 18 },
+  rpcUrls: { default: { http: ["https://testnet-rpc.monad.xyz/"] } },
+};
+
 export const client = createPublicClient({
-  chain: {
-    id: 10143,
-    name: "Monad Testnet",
-    nativeCurrency: { name: "Monad", symbol: "MON", decimals: 18 },
-    rpcUrls: { default: { http: ["https://testnet-rpc.monad.xyz/"] } },
-  },
+  chain,
   transport: http(),
 });
 
