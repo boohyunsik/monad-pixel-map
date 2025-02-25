@@ -1,7 +1,12 @@
-import { client, pixelMapAddress } from "./config";
-import { PixelMap, multicall3 } from "./abi";
 import { encodeFunctionData, decodeFunctionResult } from "viem";
-import { multicall3Address } from "./config";
+import {
+  client,
+  pixelMapAddress,
+  multicall3Address,
+  walletClient,
+  account,
+} from "./config";
+import { PixelMap, multicall3 } from "./abi";
 
 export async function multicallPixelMap(
   calls: { functionName: string; args: unknown[] }[]
@@ -56,3 +61,33 @@ export async function multicallPixelMap(
 
   return decodedResults.map((result) => result.returnValue);
 }
+
+export const setPixel = async (
+  x: number,
+  y: number,
+  color: [number, number, number]
+) => {
+  const hash = await walletClient.sendTransaction({
+    account,
+    to: pixelMapAddress,
+    data: encodeFunctionData({
+      abi: PixelMap.abi,
+      functionName: "setPixel",
+      args: [x, y, ...color],
+    }),
+  });
+
+  console.log(hash);
+};
+
+export const rgbToHex = ([r, g, b]: [number, number, number]): string => {
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+};
+
+export const hexToRgb = (hex: string): [number, number, number] => {
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return [r, g, b];
+};
