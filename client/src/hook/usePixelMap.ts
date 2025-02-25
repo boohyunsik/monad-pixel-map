@@ -31,6 +31,7 @@ export function usePixelMap() {
   const { data, error, mutate } = useSWR("pixelMap", fetcher, {
     keepPreviousData: true,
     refreshInterval: 1000,
+    dedupingInterval: 0,
   });
 
   return { data, loading: !data && !error, reload: mutate };
