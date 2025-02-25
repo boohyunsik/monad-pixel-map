@@ -1,5 +1,4 @@
-import { usePixelMap } from "../hook";
-import { setPixel } from "../util";
+import { usePixelMap, useSetPixel } from "../hook";
 import { rgbAtom } from "../atom";
 import { useAtomValue } from "jotai";
 
@@ -7,6 +6,7 @@ const gridSize = 400 as const;
 
 export function PixelMap() {
   const { data, loading, reload } = usePixelMap();
+  const { setPixel } = useSetPixel();
   const rgb = useAtomValue(rgbAtom);
 
   if (loading) {

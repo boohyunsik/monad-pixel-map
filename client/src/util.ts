@@ -1,11 +1,5 @@
 import { encodeFunctionData, decodeFunctionResult } from "viem";
-import {
-  client,
-  pixelMapAddress,
-  multicall3Address,
-  walletClient,
-  account,
-} from "./config";
+import { client, pixelMapAddress, multicall3Address } from "./config";
 import { PixelMap, multicall3 } from "./abi";
 
 export async function multicallPixelMap(
@@ -62,24 +56,6 @@ export async function multicallPixelMap(
   return decodedResults.map((result) => result.returnValue);
 }
 
-export const setPixel = async (
-  x: number,
-  y: number,
-  color: [number, number, number]
-) => {
-  const hash = await walletClient.sendTransaction({
-    account,
-    to: pixelMapAddress,
-    data: encodeFunctionData({
-      abi: PixelMap.abi,
-      functionName: "setPixel",
-      args: [x, y, ...color],
-    }),
-  });
-
-  console.log(hash);
-};
-
 export const rgbToHex = ([r, g, b]: [number, number, number]): string => {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 };
@@ -90,4 +66,8 @@ export const hexToRgb = (hex: string): [number, number, number] => {
   const g = (bigint >> 8) & 255;
   const b = bigint & 255;
   return [r, g, b];
+};
+
+export const truncateAddress = (address: string): string => {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };

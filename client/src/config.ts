@@ -1,6 +1,6 @@
-import { createPublicClient, createWalletClient, http, custom } from "viem";
+import { createPublicClient, http } from "viem";
 
-const chain = {
+export const chain = {
   id: 10143,
   name: "Monad Testnet",
   nativeCurrency: { name: "Monad", symbol: "MON", decimals: 18 },
@@ -10,16 +10,6 @@ const chain = {
 export const client = createPublicClient({
   chain,
   transport: http(),
-});
-
-export const [account] = await window.ethereum.request({
-  method: "eth_requestAccounts",
-});
-
-export const walletClient = createWalletClient({
-  account,
-  transport: custom(window.ethereum!),
-  chain,
 });
 
 export const pixelMapAddress = "0x64BDC8e922AA7E09567c15A95584D4fd4e6124ce";
