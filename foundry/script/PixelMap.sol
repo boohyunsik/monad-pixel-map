@@ -12,7 +12,7 @@ contract CounterScript is Script {
     function run() public {
         vm.startBroadcast();
 
-        pixelMap = new PixelMap(10, 10);
+        pixelMap = new PixelMap(64, 64);
 
         vm.stopBroadcast();
     }
